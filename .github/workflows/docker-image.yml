@@ -24,6 +24,5 @@ jobs:
       with:
         push: true
         tags: beohoang98/canvas-lms-docker:latest
-        platforms: linux/amd64
         cache-from: type=gha
         cache-to: type=gha,mode=max
