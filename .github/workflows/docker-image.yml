@@ -20,7 +20,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     
     - name: Build and Push
-      uses: ocker/build-push-action@v4.0.0
+      uses: docker/build-push-action@v4.0.0
       with:
         push: true
         tags: beohoang98/canvas-lms-docker:latest
