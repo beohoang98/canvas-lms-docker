@@ -1,0 +1,3 @@
+production:
+  storage: local
+  path_prefix: ${FILE_STORE_PATH_PREFIX:-/var/canvas/files}
