@@ -1,4 +1,3 @@
 production:
   servers:
-    - ${REDIS_URL:-redis://localhost:6379}
-  db: ${REDIS_DB:-0}
+    - ${REDIS_URL}
