@@ -65,10 +65,13 @@ RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-
   libssl-dev openssl \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN rm -f /etc/service/nginx/down
+RUN gem install bundler --version 2.2.33 && \
+  gem install strscan --version 3.0.5
+
 # Set correct environment variables.
 ENV HOME /home/app
 ENV RAILS_ENV=production
-ENV FILE_STORE_PATH_PREFIX=/var/lib/canvas/files
 ENV ENCRYPTION_KEY=12345678901234567890123456789012
 ENV CANVAS_DOMAIN=localhost
 ENV CANVAS_SSL=false
@@ -84,17 +87,17 @@ WORKDIR /home/app/canvas-lms
 
 COPY --from=build-gems --chown=app:app /home/app/canvas-lms /home/app/canvas-lms
 COPY ./nginx.conf /etc/nginx/sites-enabled/default
-
 COPY ./config/ ./config/
 
-RUN rm -f /etc/service/nginx/down
-RUN gem install bundler --version 2.2.33 && \
-  bundle install && \
-  gem install strscan --version 3.0.5
+RUN bundle install
 
-VOLUME ${FILE_STORE_PATH_PREFIX}
+VOLUME /home/app/canvas-lms/tmp/files
 VOLUME /home/app/canvas-lms/log
 
-COPY ./init.sh .
+COPY ./migration.sh .
+COPY ./entrypoint.sh /sbin/entrypoint.sh
 
-CMD ["/home/app/canvas-lms/init.sh"]
+ENTRYPOINT ["/sbin/entrypoint.sh"]
+
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]

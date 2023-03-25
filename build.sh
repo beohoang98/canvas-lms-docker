@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eux
 
-ARCH=$(uname -m)
-TAG=beohoang98/canvas-lms-docker:$ARCH
-docker build -t $TAG --platform $ARCH .
-docker tag $TAG beohoang98/canvas-lms-docker:latest
+TAG=beohoang98/canvas-lms-docker:latest
+ARCH_TAG=beohoang98/canvas-lms-docker:latest-$(uname -m)
+
+docker build -t $TAG .
+docker tag $TAG $ARCH_TAG

@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  canvas:
+    image: "beohoang98/canvas-lms-docker"
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migration:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    volumes:
+      - files:/opt/canvas/files
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://canvas"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  migration:
+    image: "beohoang98/canvas-lms-docker"
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: "/home/app/canvas-lms/migration.sh"
+    env_file:
+      - .env
+
+  redis:
+    image: "redis:6.0.9-alpine"
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db:
+    image: "postgres:12.4-alpine"
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres:
+  files:
