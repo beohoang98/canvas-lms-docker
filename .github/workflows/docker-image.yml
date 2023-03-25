@@ -2,7 +2,11 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - examples/**
 
 jobs:
   build:
@@ -23,7 +27,7 @@ jobs:
       uses: docker/build-push-action@v4.0.0
       with:
         push: true
-        tags: beohoang98/canvas-lms-docker:latest
+        tags: beohoang98/canvas-lms-docker:latest,beohoang98/canvas-lms-docker:${{ github.sha }}
         platforms: linux/amd64,linux/arm64
         cache-from: type=gha
-        cache-to: type=gha
+        cache-to: type=gha,mode=max
