@@ -54,6 +54,7 @@ RUN rm -rf vendor/bundle/
 
 FROM phusion/passenger-ruby27:2.5.0 as canvas
 
+# Canvas dependencies
 RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-peer.conf && \
   apt-get update && \
   apt-get install -y \
