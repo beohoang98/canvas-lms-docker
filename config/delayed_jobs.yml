@@ -1,7 +1,7 @@
 production:
   workers:
     - queue: canvas_queue
-      workers: 2
+      workers: 1
       max_priority: 10
     - queue: canvas_queue
-      workers: 4
+      workers: 1
