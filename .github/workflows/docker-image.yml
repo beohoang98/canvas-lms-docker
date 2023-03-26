@@ -32,14 +32,17 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Replace env
+      run: |
+        TAG=${{ matrix.platform }}
+        TAG=${TAG//linux\//}
+        echo "TAG=$TAG" >> $GITHUB_ENV
     
     - name: Build and Push
       uses: docker/build-push-action@v4.0.0
-      env:
-        PLATFORMS: ${{ matrix.platform }}
-        TAG: ${{ matrix.platform | replace('linux/', '') }}
       with:
         push: true
         tags: beohoang98/canvas-lms-docker:${{ env.TAG }}
-        platforms: ${{ env.PLATFORMS }}
+        platforms: ${{ matrix.platform }}
         cache-from: beohoang98/canvas-lms-docker:${{ env.TAG }}
