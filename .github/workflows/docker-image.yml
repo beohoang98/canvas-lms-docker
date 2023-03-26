@@ -10,7 +10,14 @@ on:
 
 jobs:
   build:
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        platform: [linux/amd64, linux/arm64]
+      max-parallel: 2
+    
     steps:
     - uses: actions/checkout@v3
     
@@ -28,8 +35,11 @@ jobs:
     
     - name: Build and Push
       uses: docker/build-push-action@v4.0.0
+      env:
+        PLATFORMS: ${{ matrix.platform }}
+        TAG: ${{ matrix.platform | replace('linux/', '') }}
       with:
         push: true
-        tags: beohoang98/canvas-lms-docker:latest-amd64
-        cache-from: beohoang98/canvas-lms-docker:latest-amd64
-
+        tags: beohoang98/canvas-lms-docker:${{ env.TAG }}
+        platforms: ${{ env.PLATFORMS }}
+        cache-from: beohoang98/canvas-lms-docker:${{ env.TAG }}

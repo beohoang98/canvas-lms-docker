@@ -38,7 +38,7 @@ RUN gem install bundler --version 2.2.33 \
   && bundle install
 
 # Build assets
-RUN yarn install --pure-lockfile
+RUN yarn install --network-timeout 1000000 --frozen-lockfile
 
 # Build canvas
 ENV RAILS_ENV=production
@@ -53,6 +53,10 @@ RUN rm -rf node_modules
 RUN rm -rf vendor/bundle/
 
 FROM phusion/passenger-ruby27:2.5.0 as canvas
+LABEL maintainer="An Hoang <hdan@tma.com.vn>"
+LABEL description="Canvas LMS"
+LABEL repository="github.com/beohoang98/canvas-lms-docker"
+LABEL license="N/A"
 
 # Canvas dependencies
 RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-peer.conf && \
@@ -101,3 +105,6 @@ ENTRYPOINT ["/sbin/entrypoint.sh"]
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
+
+EXPOSE 80
+EXPOSE 443
