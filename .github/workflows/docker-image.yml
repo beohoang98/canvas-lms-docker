@@ -45,4 +45,4 @@ jobs:
         push: true
         tags: beohoang98/canvas-lms-docker:${{ env.TAG }}
         platforms: ${{ matrix.platform }}
-        cache-from: beohoang98/canvas-lms-docker:${{ env.TAG }}
+        cache-from: type=registry,ref=beohoang98/canvas-lms-docker:${{ env.TAG }}
