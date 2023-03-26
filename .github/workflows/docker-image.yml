@@ -13,11 +13,6 @@ jobs:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        platform: [linux/amd64, linux/arm64]
-      max-parallel: 2
-    
     steps:
     - uses: actions/checkout@v3
     
@@ -32,17 +27,12 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-    - name: Replace env
-      run: |
-        TAG=${{ matrix.platform }}
-        TAG=${TAG//linux\//}
-        echo "TAG=$TAG" >> $GITHUB_ENV
     
     - name: Build and Push
       uses: docker/build-push-action@v4.0.0
       with:
         push: true
-        tags: beohoang98/canvas-lms-docker:${{ env.TAG }}
-        platforms: ${{ matrix.platform }}
-        cache-from: type=registry,ref=beohoang98/canvas-lms-docker:${{ env.TAG }}
+        tags: beohoang98/canvas-lms-docker:latest
+        platforms: linux/amd64 # will add arm64 later
+        cache-from: type=registry,ref=beohoang98/canvas-lms-docker:latest
+        cache-to: type=inline
