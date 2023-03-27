@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   canvas:
-    image: "beohoang98/canvas-lms-docker"
+    image: "beohoang98/canvas-lms-docker:latest"
     restart: always
     ports:
       - "8080:80"
@@ -24,7 +24,7 @@ services:
       retries: 5
 
   migration:
-    image: "beohoang98/canvas-lms-docker"
+    image: "beohoang98/canvas-lms-docker:latest"
     restart: "no"
     depends_on:
       db:
@@ -32,6 +32,8 @@ services:
     command: "/home/app/canvas-lms/migration.sh"
     env_file:
       - .env
+    volumes:
+      - files:/home/app/canvas-lms/tmp/files
 
   redis:
     image: "redis:6.0.9-alpine"
@@ -47,15 +49,23 @@ services:
     restart: always
     volumes:
       - postgres:/var/lib/postgresql/data
-    env_file:
-      - .env
+    environment:
+      POSTGRES_USER: canvas
+      POSTGRES_PASSWORD: canvas
+      POSTGRES_DB: canvas_production
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U canvas"]
       interval: 10s
       timeout: 5s
       retries: 5
     ports:
       - "5432:5432"
+
+  maildev:
+    image: "maildev/maildev"
+    restart: always
+    ports:
+      - "1080:1080"
 
 volumes:
   postgres:

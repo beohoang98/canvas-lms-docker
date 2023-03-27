@@ -1,0 +1,8 @@
+production:
+  address: <%= ENV['SMTP_HOST'] %>
+  port: <%= ENV['SMTP_PORT'] %>
+  user_name: <%= ENV['SMTP_USER'] %>
+  password: <%= ENV['SMTP_PASSWORD'] %>
+  authentication: "plain" # plain, login, or cram_md5
+  outgoing_address: <%= ENV['SMTP_OUTGOING_ADDRESS'] %>
+  default_name: "Instructure Canvas"
