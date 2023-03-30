@@ -66,7 +66,6 @@ RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-
   libsqlite3-dev postgresql-client-12 libpq-dev \
   libxmlsec1-dev libidn11-dev \
   gettext ruby2.7-dev \
-  libssl-dev openssl \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN rm -f /etc/service/nginx/down
@@ -85,6 +84,7 @@ ENV SMTP_HOST=
 ENV SMTP_PORT=
 ENV SMTP_USER=
 ENV SMTP_PASSWORD=
+ENV SMTP_AUTHENTICATION=login
 ENV SMTP_OUTGOING_ADDRESS="Canvas LMS <noreply@${CANVAS_DOMAIN}>"
 ENV TZ=UTC
 
@@ -93,6 +93,8 @@ WORKDIR /home/app/canvas-lms
 COPY --from=build-gems --chown=app:app /home/app/canvas-lms /home/app/canvas-lms
 COPY ./nginx.conf /etc/nginx/sites-enabled/default
 COPY ./config/ ./config/
+# override source code
+COPY ./app ./app
 
 RUN bundle install
 

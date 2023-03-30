@@ -4,4 +4,7 @@
 .dockerignore
 Dockerfile
 build.sh
-README
+README.md
+examples
+.trunk/
+.idea/
