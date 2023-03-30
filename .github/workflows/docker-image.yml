@@ -50,6 +50,6 @@ jobs:
 
     - name: Run docker-compose example
       run: |
-        cd examples/up-with-migrations
+        cd examples/up-with-migration
         docker compose up -d --wait
         docker compose down
