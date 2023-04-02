@@ -5,11 +5,10 @@ WORKDIR /home/app
 # Install git
 RUN apt-get update && apt-get install -y git-core curl unzip
 
-# Pull canvas-lms source from branch archive
-RUN curl -o canvas-lms.zip -L https://github.com/instructure/canvas-lms/archive/refs/heads/prod.zip && \
-  unzip canvas-lms.zip && \
-  mv canvas-lms-prod canvas-lms && \
-  rm canvas-lms.zip
+COPY ./canvas-lms-prod.zip /home/app/canvas-lms-prod.zip
+RUN unzip canvas-lms-prod.zip && \
+    rm canvas-lms-prod.zip && \
+    mv canvas-lms-prod canvas-lms
 WORKDIR /home/app/canvas-lms
 
 FROM build as build-gems
@@ -80,10 +79,10 @@ ENV CANVAS_DOMAIN=localhost
 ENV CANVAS_SSL=false
 ENV REDIS_URL=redis://localhost:6379
 ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/canvas
-ENV SMTP_HOST=
-ENV SMTP_PORT=
-ENV SMTP_USER=
-ENV SMTP_PASSWORD=
+ENV SMTP_HOST=""
+ENV SMTP_PORT=""
+ENV SMTP_USER=""
+ENV SMTP_PASSWORD=""
 ENV SMTP_AUTHENTICATION=login
 ENV SMTP_OUTGOING_ADDRESS="Canvas LMS <noreply@${CANVAS_DOMAIN}>"
 ENV TZ=UTC

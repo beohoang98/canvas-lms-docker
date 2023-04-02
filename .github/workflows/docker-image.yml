@@ -12,10 +12,19 @@ jobs:
   build:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    
+    env:
+      CACHE_LOCATION: /tmp/.buildx-cache
     steps:
     - uses: actions/checkout@v3
-    
+
+    # cache docker
+    - uses: actions/cache@v2
+      with:
+        path: ${{ env.CACHE_LOCATION }}
+        key: ${{ runner.os }}-buildx
+        restore-keys: |
+          ${{ runner.os }}-buildx
+
     - name: Docker Setup QEMU
       uses: docker/setup-qemu-action@v2.1.0
     
@@ -33,9 +42,8 @@ jobs:
       with:
         push: true
         tags: beohoang98/canvas-lms-docker:latest
-        platforms: linux/amd64 # will add arm64 later
-        cache-from: type=registry,ref=beohoang98/canvas-lms-docker:latest
-        cache-to: type=inline
+        cache-from: type=local,src=${{ env.CACHE_LOCATION }}
+        cache-to: type=local,dest=${{ env.CACHE_LOCATION }}
 
   test:
     name: Test Docker Image
