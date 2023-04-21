@@ -37,7 +37,9 @@ RUN gem install bundler --version 2.2.33 \
   && bundle install
 
 # Build assets
+ENV DISABLE_POSTINSTALL=1
 RUN yarn install --network-timeout 1000000 --frozen-lockfile
+RUN yarn build:packages
 
 # Build canvas
 ENV RAILS_ENV=production
