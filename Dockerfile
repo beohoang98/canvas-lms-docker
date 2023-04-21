@@ -52,7 +52,7 @@ ENV COMPILE_ASSETS_BRAND_CONFIGS=0
 RUN bundle exec rake canvas:compile_assets
 RUN rm -rf node_modules
 RUN rm -rf vendor/bundle/
-RUN yarn cache clean && gem cleanup && bundle clean
+RUN yarn cache clean
 
 FROM phusion/passenger-ruby27:2.5.0 as canvas-base
 
