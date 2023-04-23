@@ -49,13 +49,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v3.3.0
+        uses: docker/build-push-action@v4
         with:
           push: true
           tags: ${{ env.REGISTRY }}/beohoang98/canvas-lms-docker:latest
           cache-from: type=local,src=${{ env.CACHE_LOCATION }}
           cache-to: type=local,mode=max,dest=${{ env.CACHE_LOCATION }}
           context: canvas
+          provenance: false
 
   test:
     name: Test Docker Image
