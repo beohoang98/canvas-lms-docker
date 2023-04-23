@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  canvas:
+    image: "ghcr.io/beohoang98/canvas-lms-docker:latest"
+    restart: unless-stopped
+    domainname: "${AZURE_FQDN}"
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+    volumes:
+      - "files:/home/app/canvas-lms/tmp/files"
+      - "dist:/home/app/canvas-lms/public/dist"
+    depends_on:
+      redis:
+        condition: service_started
+    deploy:
+      resources:
+        reservations:
+          memory: "4G"
+          cpus: "2"
+
+  redis:
+    restart: unless-stopped
+    hostname: redis
+    image: redis:alpine
+    deploy:
+      resources:
+        reservations:
+          memory: "1G"
+          cpus: "0.5"
+
+volumes:
+  files:
+    driver: azure_file
+    driver_opts:
+      share_name: files
+      storage_account_name: beohoang98canvas
+  dist:
+    driver: azure_file
+    driver_opts:
+      share_name: dist
+      storage_account_name: beohoang98canvas
