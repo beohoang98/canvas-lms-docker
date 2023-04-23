@@ -10,7 +10,7 @@ on:
       - main
     paths:
       - "base/**/*"
-  workflow_dispatch: {}
+  workflow_dispatch: { }
 
 jobs:
   build:
@@ -19,9 +19,6 @@ jobs:
     env:
       CACHE_LOCATION: /tmp/.buildx-cache
       REGISTRY: ghcr.io
-    defaults:
-      run:
-        working-directory: base
     steps:
       - uses: actions/checkout@v3
 
@@ -53,3 +50,4 @@ jobs:
           tags: ${{ env.REGISTRY }}/beohoang98/canvas-lms-base:latest
           cache-from: type=local,src=${{ env.CACHE_LOCATION }}
           cache-to: type=local,mode=max,dest=${{ env.CACHE_LOCATION }}
+          context: base
