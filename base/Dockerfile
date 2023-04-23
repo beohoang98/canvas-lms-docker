@@ -17,7 +17,7 @@ RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN rm -f /etc/service/nginx/down
-RUN rvm install 2.2.33 && rvm use 2.2.33 --default
+RUN gem install bundler -v 2.2.33
 
 # Install Nodejs 16
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
