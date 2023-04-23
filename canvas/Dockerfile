@@ -28,11 +28,8 @@ ENV TZ="UTC"
 
 WORKDIR /home/app/canvas-lms
 
-COPY canvas-lms-prod.zip .
-RUN unzip canvas-lms-prod.zip \
-    && rm canvas-lms-prod.zip \
-    && mv canvas-lms-prod/* . \
-    && rm -rf canvas-lms-prod
+RUN git clone https://github.com/instructure/canvas-lms.git . --depth 1 --branch prod \
+    && git submodule update --init --recursive
 
 COPY nginx.conf /etc/nginx/sites-enabled/default
 COPY config ./config/
