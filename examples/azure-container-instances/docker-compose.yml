@@ -11,7 +11,7 @@ services:
       - "80:80"
     volumes:
       - "files:/home/app/canvas-lms/tmp/files"
-      - "dist:/home/app/canvas-lms/public/dist"
+      - "brandcss:/home/app/canvas-lms/public/dist/brandable_css"
     depends_on:
       redis:
         condition: service_started
@@ -37,8 +37,8 @@ volumes:
     driver_opts:
       share_name: files
       storage_account_name: beohoang98canvas
-  dist:
+  brandcss:
     driver: azure_file
     driver_opts:
-      share_name: dist
+      share_name: brandcss
       storage_account_name: beohoang98canvas

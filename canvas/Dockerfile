@@ -47,8 +47,7 @@ ENV COMPILE_ASSETS_NPM_INSTALL=0
 ENV COMPILE_ASSETS_STYLEGUIDE=0
 ENV COMPILE_ASSETS_BRAND_CONFIGS=0
 
-RUN bundle exec rake canvas:compile_assets \
-    && bundle clean
+RUN bundle exec rake canvas:compile_assets
 
 VOLUME /home/app/canvas-lms/tmp/files
 VOLUME /home/app/canvas-lms/log

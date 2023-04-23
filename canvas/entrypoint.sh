@@ -7,4 +7,7 @@ nohup $HOME/canvas-lms/script/canvas_init start &
 chown -R app:app $HOME/canvas-lms/tmp
 chown -R app:app $HOME/canvas-lms/log
 
+mkdir -p $HOME/canvas-lms/public/dist/brandable_css
+chown -R app:app $HOME/canvas-lms/public/dist/brandable_css
+
 exec "$@"
