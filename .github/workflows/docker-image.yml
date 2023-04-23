@@ -31,9 +31,9 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ${{ env.CACHE_LOCATION }}
-          key: ${{ runner.os }}-buildx
+          key: ${{ runner.os }}-buildx-v2
           restore-keys: |
-            ${{ runner.os }}-buildx
+            ${{ runner.os }}-buildx-v2
 
       - name: Docker Setup QEMU
         uses: docker/setup-qemu-action@v2.1.0
