@@ -41,10 +41,12 @@ RUN bundle config --local without "development test" \
     && bundle config --local path "vendor/bundle" \
     && bundle install
 
-RUN yarn install --pure-lockfile \
+RUN DISABLE_POSTINSTALL=1 yarn install --pure-lockfile \
+    && yarn build:packages \
     && yarn cache clean
 
-RUN bundle exec rake canvas:compile_assets
+RUN bundle exec rake canvas:compile_assets \
+    && bundle clean
 
 VOLUME /home/app/canvas-lms/tmp/files
 VOLUME /home/app/canvas-lms/log
