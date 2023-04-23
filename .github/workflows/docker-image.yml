@@ -15,6 +15,7 @@ on:
       - "Canvas Base Image"
     types:
       - completed
+  workflow_dispatch: {}
 
 jobs:
   build:
