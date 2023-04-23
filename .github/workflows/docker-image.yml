@@ -13,6 +13,8 @@ on:
   workflow_run:
     workflows:
       - "Canvas Base Image"
+    types:
+      - completed
 
 jobs:
   build:
