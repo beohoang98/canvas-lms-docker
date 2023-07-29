@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby27:2.5.0 as canvas-base
+FROM phusion/passenger-ruby31:2.5.1 as canvas-base
 
 LABEL org.opencontainers.image.source="github.com/beohoang98/canvas-lms-docker"
 LABEL org.opencontainers.image.authors="beohoang98 <beohoang98@gmail.com"
@@ -13,11 +13,11 @@ RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-
     zlib1g-dev libxml2-dev \
     libsqlite3-dev postgresql-client-12 libpq-dev \
     libxmlsec1-dev libidn11-dev \
-    gettext ruby2.7-dev \
+    gettext ruby3.1-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN rm -f /etc/service/nginx/down
-RUN gem install bundler -v 2.2.33
+RUN gem install bundler -v 2.3.26
 
 # Install Nodejs 16
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \

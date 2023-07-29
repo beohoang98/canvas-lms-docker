@@ -22,7 +22,7 @@ services:
       test: ["CMD", "curl", "-f", "http://canvas"]
       interval: 10s
       timeout: 10s
-      retries: 5
+      retries: 10
 
   migration:
     image: "ghcr.io/beohoang98/canvas-lms-docker:latest"
@@ -43,8 +43,8 @@ services:
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 10
 
   db:
     image: "postgres:12.4-alpine"
@@ -58,8 +58,8 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U canvas"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 10
     ports:
       - "5432:5432"
 
