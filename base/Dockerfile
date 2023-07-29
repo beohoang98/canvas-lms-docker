@@ -20,6 +20,7 @@ RUN gem install bundler -v 2.3.26
 
 # Install Nodejs 16
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-  apt-get install -y nodejs && \
-  npm install -g yarn \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get remove -y nodejs && \
+    apt-get install -y nodejs && \
+    npm install -g yarn \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
