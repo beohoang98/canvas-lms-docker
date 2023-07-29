@@ -12,9 +12,7 @@ RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-
   apt-get install -y \
     zlib1g-dev libxml2-dev \
     libsqlite3-dev postgresql-client-12 libpq-dev \
-    libxmlsec1-dev libidn11-dev \
-    gettext ruby3.1-dev \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    libxmlsec1-dev libidn11-dev gettext
 
 RUN rm -f /etc/service/nginx/down
 RUN gem install bundler -v 2.3.26
