@@ -16,7 +16,8 @@ RUN echo "Acquire { https::Verify-Peer false }" >> /etc/apt/apt.conf.d/99verify-
     openssl
 
 RUN rm -f /etc/service/nginx/down
-RUN gem install bundler -v 2.3.26
+RUN gem install bundler -v 2.3.26 \
+    && gem install strscan -v 3.0.6
 
 # Install Nodejs 16
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
